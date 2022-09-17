@@ -5,7 +5,10 @@ import './App.css';
 const Hello = () => {
   return (
     <div>
-      <h1>CorpoAssit</h1>
+      <div>
+        <img width="200" alt="icon" src={icon} />
+      </div>
+      <h1>CorpoAssist</h1>
     </div>
   );
 };
