@@ -4,6 +4,7 @@ import { app, BrowserWindow, shell } from 'electron';
 import MenuBuilder from './menu';
 import { resolveHtmlPath, getAssetPath } from './util';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const installExtensions = async () => {
   // eslint-disable-next-line global-require
   const installer = require('electron-devtools-installer');
@@ -18,12 +19,25 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-const createWindow = async (isDebug: boolean): Promise<BrowserWindow> => {
-  let mainWindow: BrowserWindow | null = null;
+let mainWindow: BrowserWindow | null = null;
 
-  if (isDebug) {
-    await installExtensions();
-  }
+export enum Page {
+  SETTINGS = 'settings',
+  REPORT_CHUNK = 'reportChunk',
+  CHUNK_LIST = 'chunkList',
+}
+
+const createWindow = async (
+  _isDebug: boolean,
+  page: Page = Page.SETTINGS
+): Promise<BrowserWindow> => {
+  // if (mainWindow !== null) {
+  //   return mainWindow;
+  // }
+
+  // if (isDebug) {
+  //   await installExtensions();
+  // }
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -31,14 +45,21 @@ const createWindow = async (isDebug: boolean): Promise<BrowserWindow> => {
     height: 728,
     icon: getAssetPath('icon.png'),
     webPreferences: {
+      devTools: false,
       sandbox: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#222222',
+      symbolColor: '#EEEEEE',
+      height: 32,
+    },
   });
 
-  mainWindow.loadURL(resolveHtmlPath('index.html'));
+  mainWindow.loadURL(`${resolveHtmlPath(`index.html`)}#/${page}`);
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {

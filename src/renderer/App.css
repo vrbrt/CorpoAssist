@@ -8,13 +8,41 @@ body {
   height: 100vh;
   background: linear-gradient(
     200.96deg,
-    #fedc2a -29.09%,
-    #dd5789 51.77%,
-    #7a2c9e 129.35%
+    #333333 -29.09%,
+    #222222 51.77%,
+    #111111 129.35%
   );
   font-family: sans-serif;
   overflow-y: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#titleBarContainer {
+  min-height: 32px;
+  max-height: 32px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  background-color: #222222;
+}
+
+#titleBar {
+  margin-left: 4px;
+}
+
+#appIcon {
+  position: relative;
+  top: 4px;
+  margin-right: 8px;
+}
+
+#appTitle {
+  font-weight: 700;
+}
+
+.draggable {
+  -webkit-app-region: drag;
 }

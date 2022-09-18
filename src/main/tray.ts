@@ -4,12 +4,8 @@ import { existsSync } from 'fs';
 import console from 'console';
 
 import { getAssetPath } from './util';
-import {
-  TrayConfig,
-  MenuItemType,
-  MenuItem,
-  MenuConfig,
-} from './config/configLoader';
+import { TrayConfig, MenuItemType, MenuItem, MenuConfig } from './config/types';
+import { Page } from './window';
 
 const runProcess = (
   path: string,
@@ -69,9 +65,13 @@ const loadContextMenuOptions = (
   return convertMenuConfig(config.menu);
 };
 
+type CreateWindowFunction = (page: Page) => Promise<void>;
+type CreateDialogFunction = () => Promise<void>;
+
 const createTray = (
   config: TrayConfig,
-  options: MenuItemConstructorOptions[]
+  createWindow: CreateWindowFunction,
+  createDialog: CreateDialogFunction
 ) => {
   const tray = new Tray(getAssetPath('icon.png'));
 
@@ -80,9 +80,26 @@ const createTray = (
     {
       type: 'separator',
     },
-    ...options,
+    // {
+    //   label: 'Reported hours',
+    //   click: () => createWindow(Page.CHUNK_LIST),
+    // },
     {
-      label: 'Wyłącz CorpoAssist',
+      label: 'Report hours',
+      click: createDialog,
+    },
+    // {
+    //   type: 'separator',
+    // },
+    // {
+    //   label: 'Configuration',
+    //   click: () => createWindow(Page.SETTINGS),
+    // },
+    {
+      type: 'separator',
+    },
+    {
+      label: 'Exit',
       role: 'quit',
     },
   ]);

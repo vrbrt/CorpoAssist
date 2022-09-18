@@ -1,0 +1,96 @@
+#reportTimePanel {
+  position: fixed;
+  top: 32px;
+  left: 0px;
+  min-height: 605px;
+  max-height: 605px;
+  min-width: 895px;
+  max-width: 895px;
+  display: grid;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+  padding: 10px 10px 10px 10px;
+  box-sizing: border-box;
+  gap: 10px 10px;
+  justify-items: stretch;
+  align-items: stretch;
+  justify-content: stretch;
+  align-content: stretch;
+  grid-auto-flow: row;
+}
+
+.reportOption {
+  position: relative;
+  background-color: #222222;
+  border: 2px solid #333333;
+  cursor: pointer;
+}
+
+.reportOption:hover {
+  background-color: #333333;
+  border-color: #444444;
+}
+
+.reportOption > .optionBadge {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 100px;
+  height: 100px;
+  text-align: right;
+  overflow: hidden;
+}
+
+.optionBadge > span {
+  background-color: yellowgreen;
+  text-align: center;
+  line-height: 20px;
+  font-size: 16px;
+  text-transform: capitalize;
+  display: block;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 26px;
+  right: -36px;
+  width: 150px;
+  outline: 2px solid #446622;
+  color: #222222;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.reportContainer {
+  display: flex;
+  height: 185px;
+  margin: 0px 0px 0px 0px;
+  box-sizing: border-box;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  padding: 10px 10px 10px 10px;
+  margin: 0px 0px 0px 0px;
+  row-gap: 0px;
+}
+
+.reportContainer > * {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.reportContainer > .optionTitle {
+  align-self: stretch;
+  font-size: x-large;
+  color: greenyellow;
+}
+
+.reportContainer > .optionFooter {
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 5px;
+  column-gap: 5px;
+}
+
+.reportContainer > .optionFooter > * {
+  background-color: greenyellow;
+  color: #111111;
+  padding: 4px;
+  border-radius: 6px;
+}

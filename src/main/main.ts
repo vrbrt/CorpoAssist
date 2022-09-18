@@ -11,16 +11,18 @@
 
 import { app, BrowserWindow, ipcMain } from 'electron';
 import console from 'console';
-import createWindow from './window';
+import createWindow, { Page } from './window';
+import createDialog from './dialog';
 import createTray from './tray';
 import applicationConfig from './config/configLoader';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let mainWindow: BrowserWindow | null = null;
+let dialogWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
+ipcMain.on('reportTime', async (event, arg) => {
+  console.log(arg);
+  dialogWindow?.close();
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -43,20 +45,22 @@ app.on('window-all-closed', (event: Event) => {
   event.preventDefault();
 });
 
-const createMainWindow = async (debug: boolean) => {
-  mainWindow = await createWindow(debug);
+const createMainWindow = (debug: boolean) => async (page: Page) => {
+  mainWindow = await createWindow(debug, page);
+};
+
+const createDialogWindow = async () => {
+  dialogWindow = await createDialog();
 };
 
 app
   .whenReady()
-  .then(async () => {
-    const config = await applicationConfig();
+  .then(() => applicationConfig())
+  .then(async (config) => {
     console.log(JSON.stringify(config));
-    createTray(config.tray, [
-      {
-        label: 'Ustawienia',
-        click: () => createMainWindow(isDebug),
-      },
-    ]);
+    ipcMain.on('getProjects', async (event) => {
+      event.reply('getProjects', config.tasks);
+    });
+    createTray(config.tray, createMainWindow(isDebug), createDialogWindow);
   })
   .catch(console.log);
