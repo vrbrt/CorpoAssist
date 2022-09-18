@@ -3,7 +3,7 @@
 <br>
 
 <p>
-  CorpoAssist is an utility application targeted at automating-away boring day to day corporate tasks.
+  CorpoAssist is an utility application targeted at streamlining and, if possible, automating-away boring day to day corporate tasks.
 
 CorpoAssist is built on top of <a href="https://electron-react-boilerplate.js.org/">Electron React Boilerplate</a> that streamlines integration of <a href="https://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, <a href="https://github.com/reactjs/react-router">React Router</a>, <a href="https://webpack.js.org/">Webpack</a> and <a href="https://www.npmjs.com/package/react-refresh">React Fast Refresh</a>.
 
