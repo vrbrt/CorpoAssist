@@ -1,3 +1,8 @@
 # 0.1.0 (2022.09.17)
 
 First available version. Includes an installer and working tray module that load configuration from `~/.corpoAssistConfig.yaml`
+
+# 0.2.0 (2022.09.18)
+
+Add time report modal with options from configuration file `~/.corpoAssistConfig.yaml`
+Reported times are persisted as `~/corpoAssist.db`. List of reported task times is available from menu on the tray icon.
