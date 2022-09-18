@@ -1,0 +1,20 @@
+table,
+td,
+th {
+  border: 1px solid #dddddd;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+thead tr th {
+  position: sticky;
+  top: 0;
+  background-color: #222222;
+}
+
+.scrollWrapper {
+  overflow-y: auto;
+  max-height: 500px;
+}

@@ -35,6 +35,7 @@ const createDialog = async (): Promise<BrowserWindow> => {
     },
     resizable: false,
     maximizable: false,
+    alwaysOnTop: true,
   });
 
   dialogWindow.loadURL(`${resolveHtmlPath(`index.html`)}#/reportChunk`);

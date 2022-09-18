@@ -15,14 +15,30 @@ import createWindow, { Page } from './window';
 import createDialog from './dialog';
 import createTray from './tray';
 import applicationConfig from './config/configLoader';
+import { initDB, saveTimeReport, getAllHours } from './hours/hoursManagement';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let mainWindow: BrowserWindow | null = null;
 let dialogWindow: BrowserWindow | null = null;
 
-ipcMain.on('reportTime', async (event, arg) => {
+type ReportData = { id: number; type: string; project: string; tags: string[] };
+
+ipcMain.on('reportTime', async (_event, arg) => {
   console.log(arg);
+  const data = arg[0] as ReportData;
+  saveTimeReport({
+    taskId: data.id,
+    project: data.project,
+    tags: data.tags,
+    type: data.type,
+    time: 0.5,
+    date: new Date(),
+  });
   dialogWindow?.close();
+});
+
+ipcMain.on('getReports', async (event) => {
+  event.reply('getReports', getAllHours());
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -55,6 +71,7 @@ const createDialogWindow = async () => {
 
 app
   .whenReady()
+  .then(() => initDB())
   .then(() => applicationConfig())
   .then(async (config) => {
     console.log(JSON.stringify(config));

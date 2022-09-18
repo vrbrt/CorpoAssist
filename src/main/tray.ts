@@ -2,6 +2,7 @@ import { Menu, MenuItemConstructorOptions, Tray, shell } from 'electron';
 import { spawn } from 'child_process';
 import { existsSync } from 'fs';
 import console from 'console';
+import { clearInterval } from 'timers';
 
 import { getAssetPath } from './util';
 import { TrayConfig, MenuItemType, MenuItem, MenuConfig } from './config/types';
@@ -75,18 +76,31 @@ const createTray = (
 ) => {
   const tray = new Tray(getAssetPath('icon.png'));
 
+  let interval: NodeJS.Timer | undefined;
+
   const contextMenu = Menu.buildFromTemplate([
     ...loadContextMenuOptions(config),
     {
       type: 'separator',
     },
-    // {
-    //   label: 'Reported hours',
-    //   click: () => createWindow(Page.CHUNK_LIST),
-    // },
+    {
+      label: 'Reported hours',
+      click: () => createWindow(Page.CHUNK_LIST),
+    },
     {
       label: 'Report hours',
       click: createDialog,
+    },
+    {
+      label: 'Report popup enabled',
+      type: 'checkbox',
+      click: (menuItem) => {
+        if (menuItem.checked) {
+          interval = setInterval(createDialog, 1800000);
+        } else {
+          clearInterval(interval);
+        }
+      },
     },
     // {
     //   type: 'separator',
