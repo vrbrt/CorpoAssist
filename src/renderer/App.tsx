@@ -1,8 +1,8 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
-import ReportChunk from './reports/ReportChunk';
-import ChunkList from './reports/ChunkList';
+import ReportTask from './reports/ReportChunk';
+import TasksList from './reports/ChunkList';
 
 const Settings = () => {
   return (
@@ -23,8 +23,8 @@ export default function App() {
       </div>
       <Routes>
         <Route path="/settings" element={<Settings />} />
-        <Route path="/reportChunk" element={<ReportChunk />} />
-        <Route path="/chunkList" element={<ChunkList />} />
+        <Route path="/tasks/report" element={<ReportTask />} />
+        <Route path="/tasks/reports" element={<TasksList />} />
       </Routes>
     </Router>
   );

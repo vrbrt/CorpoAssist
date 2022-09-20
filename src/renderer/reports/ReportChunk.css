@@ -2,12 +2,7 @@
   position: fixed;
   top: 32px;
   left: 0px;
-  min-height: 605px;
-  max-height: 605px;
-  min-width: 895px;
-  max-width: 895px;
   display: grid;
-  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
   padding: 10px 10px 10px 10px;
   box-sizing: border-box;
   gap: 10px 10px;
@@ -16,6 +11,30 @@
   justify-content: stretch;
   align-content: stretch;
   grid-auto-flow: row;
+}
+
+.grid3x3 {
+  min-height: 605px;
+  max-height: 605px;
+  min-width: 895px;
+  max-width: 895px;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+}
+
+.grid3x2 {
+  min-height: 400px;
+  max-height: 400px;
+  min-width: 895px;
+  max-width: 895px;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr;
+}
+
+.grid2x2 {
+  min-height: 400px;
+  max-height: 400px;
+  min-width: 600px;
+  max-width: 600px;
+  grid-template: 1fr 1fr / 1fr 1fr;
 }
 
 .reportOption {
@@ -93,4 +112,13 @@
   color: #111111;
   padding: 4px;
   border-radius: 6px;
+}
+
+#returnToMain {
+  font-size: 140px;
+  font-weight: 900;
+  color: greenyellow;
+  position: absolute;
+  top: -170px;
+  left: 70px;
 }

@@ -1,13 +1,13 @@
 import path from 'path';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { resolveHtmlPath, getAssetPath } from './util';
 
 let dialogWindow: BrowserWindow | null = null;
 
 export enum Page {
   SETTINGS = 'settings',
-  REPORT_CHUNK = 'reportChunk',
-  CHUNK_LIST = 'chunkList',
+  REPORT_TASK = 'tasks/report',
+  REPORTS_LIST = 'tasks/reports',
 }
 
 const createDialog = async (): Promise<BrowserWindow> => {
@@ -38,7 +38,7 @@ const createDialog = async (): Promise<BrowserWindow> => {
     alwaysOnTop: true,
   });
 
-  dialogWindow.loadURL(`${resolveHtmlPath(`index.html`)}#/reportChunk`);
+  dialogWindow.loadURL(`${resolveHtmlPath(`index.html`)}#/tasks/report`);
 
   dialogWindow.on('ready-to-show', () => {
     if (!dialogWindow) {
@@ -62,5 +62,14 @@ const createDialog = async (): Promise<BrowserWindow> => {
 
   return dialogWindow;
 };
+
+type WindowParameters = { url: string; height: number; width: number };
+
+ipcMain.on('resizeDialog', async (_event, args) => {
+  const windowParameters = args[0] as WindowParameters;
+  dialogWindow?.setResizable(true);
+  dialogWindow?.setSize(windowParameters.width, windowParameters.height);
+  dialogWindow?.setResizable(false);
+});
 
 export default createDialog;

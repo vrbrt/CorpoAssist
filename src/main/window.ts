@@ -23,8 +23,8 @@ let mainWindow: BrowserWindow | null = null;
 
 export enum Page {
   SETTINGS = 'settings',
-  REPORT_CHUNK = 'reportChunk',
-  CHUNK_LIST = 'chunkList',
+  REPORT_TASK = 'tasks/report',
+  REPORTS_LIST = 'tasks/reports',
 }
 
 const createWindow = async (

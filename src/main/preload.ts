@@ -1,6 +1,10 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-export type Channels = 'reportTime' | 'getProjects' | 'getReports';
+export type Channels =
+  | 'reportTime'
+  | 'getProjects'
+  | 'getReports'
+  | 'resizeDialog';
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {

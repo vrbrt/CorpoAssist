@@ -85,7 +85,7 @@ const createTray = (
     },
     {
       label: 'Reported hours',
-      click: () => createWindow(Page.CHUNK_LIST),
+      click: () => createWindow(Page.REPORTS_LIST),
     },
     {
       label: 'Report hours',

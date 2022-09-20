@@ -74,7 +74,6 @@ app
   .then(() => initDB())
   .then(() => applicationConfig())
   .then(async (config) => {
-    console.log(JSON.stringify(config));
     ipcMain.on('getProjects', async (event) => {
       event.reply('getProjects', config.tasks);
     });

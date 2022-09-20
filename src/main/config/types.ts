@@ -48,10 +48,8 @@ export interface TrayConfig {
 
 export interface ApplicationConfig {
   tray: TrayConfig;
-  tasks: TasksConfig;
+  tasks: TaskConfig[];
 }
-
-type TasksConfig = TaskConfig[];
 
 export enum TaskType {
   SUPPORT = 'support',
@@ -68,4 +66,5 @@ interface TaskConfig {
   details: string;
   tags: string[];
   badge?: string;
+  subtasks: TaskConfig[];
 }
