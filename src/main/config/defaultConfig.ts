@@ -39,7 +39,6 @@ const defaultConfig: ApplicationConfig = {
   },
   tasks: [
     {
-      id: 0,
       type: TaskType.INCIDENT,
       title: 'Task X',
       details: 'Task X description',
@@ -47,20 +46,59 @@ const defaultConfig: ApplicationConfig = {
       badge: 'Popular',
     },
     {
-      id: 1,
       type: TaskType.DEVELOPMENT,
       project: 'New system',
       title: 'Task Y',
       details: 'Task Y description',
       tags: ['development', 'creative'],
-      badge: 'Last',
     },
     {
-      id: 2,
       type: TaskType.SUPPORT,
-      title: 'Task Y',
-      details: 'Task Y description',
+      title: 'Task Z',
+      details: 'Task Z description (has subtasks)',
       tags: ['development', 'creative'],
+      subtasks: [
+        {
+          type: TaskType.SUPPORT,
+          title: 'Task Z.1',
+          details: 'Task Z description (has subtasks)',
+          tags: ['development', 'creative'],
+          subtasks: [
+            {
+              type: TaskType.SUPPORT,
+              title: 'Task Z.1.I',
+              details: 'Task Z description',
+              tags: ['development', 'creative'],
+            },
+            {
+              type: TaskType.SUPPORT,
+              title: 'Task Z.1.II',
+              details: 'Task Z description',
+              tags: ['development', 'creative'],
+            },
+          ],
+        },
+        {
+          type: TaskType.SUPPORT,
+          title: 'Task Z.2',
+          details: 'Task Z description',
+          tags: ['development', 'creative'],
+          subtasks: [
+            {
+              type: TaskType.SUPPORT,
+              title: 'Task Z.2.I',
+              details: 'Task Z description',
+              tags: ['development', 'creative'],
+            },
+            {
+              type: TaskType.SUPPORT,
+              title: 'Task Z.2.II',
+              details: 'Task Z description',
+              tags: ['development', 'creative'],
+            },
+          ],
+        },
+      ],
     },
   ],
 };

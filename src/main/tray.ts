@@ -119,7 +119,7 @@ const createTray = (
   ]);
 
   tray.setContextMenu(contextMenu);
-  tray.setToolTip('CorpoAssist - custom menus');
+  tray.setToolTip('CorpoAssist - your free PA');
 };
 
 export default createTray;

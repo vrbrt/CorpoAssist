@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import './ReportChunk.css';
 
 interface ProjectData {
-  id: number;
   type: string;
   project?: string;
   title: string;
@@ -17,7 +16,6 @@ interface ReportBoxParams extends ProjectData {
 }
 
 const ReportBox = ({
-  id,
   type,
   project,
   title,
@@ -29,7 +27,7 @@ const ReportBox = ({
 }: ReportBoxParams) => {
   const sendReport = () => {
     window.electron.ipcRenderer.sendMessage('reportTime', [
-      { id, type, project, tags },
+      { title, type, details, project, tags },
     ]);
   };
 
@@ -53,7 +51,7 @@ const ReportBox = ({
         <p className="optionTitle">{title}</p>
         <p className="optionDescription">{details}</p>
         <div className="optionFooter">
-          {tags.map((tag) => (
+          {tags?.map((tag) => (
             <div key={tag}>{tag}</div>
           ))}
         </div>
@@ -99,24 +97,25 @@ const ReportChunk = ({
   };
 
   const sizeClass = useMemo(() => {
-    if (projects?.length > 6) {
+    if (projects?.length > 5 + (pop ? 0 : 1)) {
       resizeDialog(895, 637);
       return 'grid3x3';
     }
-    if (projects?.length > 4) {
+    if (projects?.length > 3 + (pop ? 0 : 1)) {
       resizeDialog(895, 437);
       return 'grid3x2';
     }
-    resizeDialog(600, 437);
+    if (projects?.length > 0) {
+      resizeDialog(600, 437);
+    }
     return 'grid2x2';
-  }, [projects]);
+  }, [projects, pop]);
 
   return (
     <div id="reportTimePanel" className={sizeClass}>
       <ReturnBox pop={pop} />
       {projects.map((project) => (
         <ReportBox
-          id={project.id}
           type={project.type}
           project={project.project}
           title={project.title}
@@ -125,7 +124,7 @@ const ReportChunk = ({
           badge={project.badge}
           subtasks={project.subtasks}
           push={push}
-          key={project.id}
+          key={project.title}
         />
       ))}
     </div>
@@ -156,7 +155,7 @@ const ReportContainer = () => {
     setStack([head, ...stack]);
   };
 
-  if (stack.length === 0) {
+  if (projects.length === 0) {
     return null;
   }
 

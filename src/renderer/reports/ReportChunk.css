@@ -26,7 +26,7 @@
   max-height: 400px;
   min-width: 895px;
   max-width: 895px;
-  grid-template: 1fr 1fr 1fr / 1fr 1fr;
+  grid-template: 1fr 1fr / 1fr 1fr 1fr;
 }
 
 .grid2x2 {

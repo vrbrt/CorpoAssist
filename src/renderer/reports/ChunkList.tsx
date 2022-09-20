@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import './ChunkList.css';
 
 interface TimeReportRow {
-  taskId: number;
   type: string;
   project: string;
   tags: string[];
@@ -13,7 +12,7 @@ interface TimeReportRow {
 const ChunkList = () => {
   const [chunks, setChunks] = useState<TimeReportRow[]>([]);
   useEffect(() => {
-    window.electron.ipcRenderer.once('getReports', (args) =>
+    window.electron.ipcRenderer.on('getReports', (args) =>
       setChunks(args as TimeReportRow[])
     );
     window.electron.ipcRenderer.sendMessage('getReports', []);
@@ -40,7 +39,7 @@ const ChunkList = () => {
                 <td>{row.type}</td>
                 <td>{row.project}</td>
                 <td>{row.time}</td>
-                <td>{row.tags.join(', ')}</td>
+                <td>{row.tags?.join(', ') ?? ''}</td>
               </tr>
             ))}
           </tbody>

@@ -15,26 +15,40 @@ import createWindow, { Page } from './window';
 import createDialog from './dialog';
 import createTray from './tray';
 import applicationConfig from './config/configLoader';
-import { initDB, saveTimeReport, getAllHours } from './hours/hoursManagement';
+import { TaskConfig, TaskType } from './config/types';
+import {
+  initDB,
+  saveTimeReport,
+  getAllHours,
+  getLastTask,
+} from './hours/hoursManagement';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let mainWindow: BrowserWindow | null = null;
 let dialogWindow: BrowserWindow | null = null;
 
-type ReportData = { id: number; type: string; project: string; tags: string[] };
+type ReportData = {
+  title: string;
+  type: string;
+  details: string;
+  project: string;
+  tags: string[];
+};
 
 ipcMain.on('reportTime', async (_event, arg) => {
   console.log(arg);
   const data = arg[0] as ReportData;
   saveTimeReport({
-    taskId: data.id,
     project: data.project,
+    title: data.title,
+    details: data.details,
     tags: data.tags,
     type: data.type,
     time: 0.5,
     date: new Date(),
   });
   dialogWindow?.close();
+  mainWindow?.webContents.send('getReports', getAllHours());
 });
 
 ipcMain.on('getReports', async (event) => {
@@ -74,8 +88,22 @@ app
   .then(() => initDB())
   .then(() => applicationConfig())
   .then(async (config) => {
+    // console.log(JSON.stringify(config));
     ipcMain.on('getProjects', async (event) => {
-      event.reply('getProjects', config.tasks);
+      const last = getLastTask();
+      let tasks = [...config.tasks];
+      if (last) {
+        const lastTaskOption: TaskConfig = {
+          title: `${last.title} `,
+          type: last.type as TaskType,
+          project: last.project,
+          details: last.details,
+          tags: last.tags,
+          badge: 'Recent',
+        };
+        tasks = [lastTaskOption, ...tasks];
+      }
+      event.reply('getProjects', tasks);
     });
     createTray(config.tray, createMainWindow(isDebug), createDialogWindow);
   })

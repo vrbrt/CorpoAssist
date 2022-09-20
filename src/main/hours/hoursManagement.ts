@@ -2,8 +2,9 @@ import loki from 'lokijs';
 import { homedir } from 'os';
 
 interface TimeReportRow {
-  taskId: number;
   type: string;
+  title: string;
+  details: string;
   project: string;
   tags: string[];
   date: Date;
@@ -48,4 +49,8 @@ export const saveTimeReport = (row: TimeReportRow) => {
 
 export const getAllHours = () => {
   return hours?.data;
+};
+
+export const getLastTask = () => {
+  return hours?.data.at(-1);
 };

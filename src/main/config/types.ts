@@ -58,13 +58,12 @@ export enum TaskType {
   PROBLEM = 'problem',
 }
 
-interface TaskConfig {
-  id: number;
+export interface TaskConfig {
   type: TaskType;
   project?: string;
   title: string;
   details: string;
   tags: string[];
   badge?: string;
-  subtasks: TaskConfig[];
+  subtasks?: TaskConfig[];
 }
