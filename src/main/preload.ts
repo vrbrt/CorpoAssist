@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels =
   | 'reportTime'
+  | 'createTask'
   | 'getProjects'
   | 'getReports'
   | 'resizeDialog';

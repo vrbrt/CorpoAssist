@@ -14,7 +14,7 @@ import console from 'console';
 import createWindow, { Page } from './window';
 import createDialog from './dialog';
 import createTray from './tray';
-import applicationConfig from './config/configLoader';
+import applicationConfig, { saveConfig } from './config/configLoader';
 import { TaskConfig, TaskType } from './config/types';
 import {
   initDB,
@@ -83,12 +83,29 @@ const createDialogWindow = async () => {
   dialogWindow = await createDialog();
 };
 
+const getTasksWithSubTasks = (tasks: TaskConfig[]): TaskConfig[] => {
+  let flattenedConfig = [...tasks];
+  tasks.forEach((task) => {
+    flattenedConfig = [
+      ...flattenedConfig,
+      ...getTasksWithSubTasks(task.subtasks ?? []),
+    ];
+  });
+  return flattenedConfig;
+};
+
+const areTasksTheSame = (task1: TaskConfig, task2: TaskConfig) =>
+  task1.title === task2.title &&
+  task1.details === task2.details &&
+  (task1.project === task2.project ||
+    ((task1.project ?? '') === '' && (task2.project ?? '') === '')) &&
+  task1.type === task2.type;
+
 app
   .whenReady()
   .then(() => initDB())
   .then(() => applicationConfig())
   .then(async (config) => {
-    // console.log(JSON.stringify(config));
     ipcMain.on('getProjects', async (event) => {
       const last = getLastTask();
       let tasks = [...config.tasks];
@@ -104,6 +121,31 @@ app
         tasks = [lastTaskOption, ...tasks];
       }
       event.reply('getProjects', tasks);
+    });
+    ipcMain.on('createTask', async (_event, arg) => {
+      console.log(arg);
+      const { parent, ...data } = arg[0];
+      console.log(`Parent: ${JSON.stringify(parent)}`);
+      console.log(`Data: ${JSON.stringify(data)}`);
+      if (parent === undefined) {
+        config.tasks.push(data);
+      } else {
+        const actualParentFromConfig =
+          getTasksWithSubTasks(config.tasks).find((task) => {
+            const result = areTasksTheSame(task, parent);
+            console.log(
+              `Comparing:\ntask: ${JSON.stringify(
+                task
+              )}\nparent: ${JSON.stringify(parent)}\nresult:${result}`
+            );
+            return result;
+          }) ?? ({} as TaskConfig);
+        actualParentFromConfig.subtasks = [
+          data,
+          ...(actualParentFromConfig.subtasks ?? []),
+        ];
+      }
+      saveConfig(config);
     });
     createTray(config.tray, createMainWindow(isDebug), createDialogWindow);
   })

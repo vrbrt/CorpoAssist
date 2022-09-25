@@ -13,6 +13,31 @@
   grid-auto-flow: row;
 }
 
+input {
+  width: 100%;
+  background-color: #333333;
+  border-right: none;
+  border-bottom: yellowgreen 1px solid;
+  color: #dddddd;
+}
+
+input::placeholder {
+  color: #dddddd;
+  font-style: italic;
+}
+
+input.optionTitle {
+  color: yellowgreen;
+}
+
+.grid4x3 {
+  min-height: 605px;
+  max-height: 605px;
+  min-width: 1190px;
+  max-width: 1190px;
+  grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr 1fr;
+}
+
 .grid3x3 {
   min-height: 605px;
   max-height: 605px;
@@ -37,16 +62,27 @@
   grid-template: 1fr 1fr / 1fr 1fr;
 }
 
+form {
+  display: block;
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+
 .reportOption {
   position: relative;
   background-color: #222222;
   border: 2px solid #333333;
   cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.4);
+  transition-duration: 200ms;
 }
 
 .reportOption:hover {
   background-color: #333333;
   border-color: #444444;
+  transform: scale(1.05);
+  z-index: 2;
 }
 
 .reportOption > .optionBadge {
@@ -98,6 +134,11 @@
   align-self: stretch;
   font-size: x-large;
   color: greenyellow;
+  transition-duration: 200ms;
+}
+
+*:hover > .optionTitle {
+  color: white;
 }
 
 .reportContainer > .optionFooter {
@@ -105,6 +146,7 @@
   flex-flow: row wrap;
   row-gap: 5px;
   column-gap: 5px;
+  justify-content: flex-start;
 }
 
 .reportContainer > .optionFooter > * {
@@ -114,6 +156,40 @@
   border-radius: 6px;
 }
 
+.reportContainer > .optionFooter > *::placeholder {
+  color: #111111;
+  font-style: italic;
+}
+
+.optionFooter > .saveNewTask {
+  width: auto;
+  margin-left: auto;
+  border: none;
+  color: yellowgreen;
+  background-color: #444444;
+  cursor: pointer;
+  transition-duration: 200ms;
+}
+
+.saveNewTask:hover {
+  background-color: #222222;
+  transform: scale(1.2);
+}
+
+.optionFooter > .addSubTask {
+  color: yellowgreen;
+  font-weight: 900;
+  margin-left: auto;
+  padding: 0 0 0 0;
+  background-color: inherit;
+  transition-duration: 200ms;
+}
+
+.addSubTask:hover {
+  transform: scale(3);
+  color: white;
+}
+
 #returnToMain {
   font-size: 140px;
   font-weight: 900;
@@ -121,4 +197,9 @@
   position: absolute;
   top: -170px;
   left: 70px;
+  transition-duration: 200ms;
+}
+
+#returnToMain:hover {
+  color: white;
 }

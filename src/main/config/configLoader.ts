@@ -14,7 +14,7 @@ const writeFile = promisify(writeFileRaw);
 
 const configFile = `${homedir()}\\.corpoAssistConfig.yaml`;
 
-const saveConfig = async (config: ApplicationConfig): Promise<void> => {
+export const saveConfig = async (config: ApplicationConfig): Promise<void> => {
   const serializedConfig = yaml.dump(config);
   return writeFile(configFile, serializedConfig, 'utf8');
 };
