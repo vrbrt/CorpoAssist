@@ -18,7 +18,7 @@ export default function App() {
       <div id="titleBarContainer" className="draggable">
         <div id="titleBar">
           <img id="appIcon" width="24" alt="icon" src={icon} />
-          <span id="appTitle">CorpoAssist v0.3.0</span>
+          <span id="appTitle">CorpoAssist v0.4.0</span>
         </div>
       </div>
       <Routes>
